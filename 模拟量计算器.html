@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>模拟量转物理量计算器</title>
+    <style>
+        body {
+            font-family: "Microsoft Yahei", sans-serif;
+            max-width: 450px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+        .box {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px #ccc;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+        }
+        .item {
+            margin: 15px 0;
+        }
+        label {
+            display: inline-block;
+            width: 120px;
+            font-weight: 500;
+        }
+        input {
+            width: 200px;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            background: #eef6ff;
+            border-radius: 8px;
+            font-size: 18px;
+            text-align: center;
+            font-weight: bold;
+            color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>模拟量线性换算计算器</h2>
+
+        <div class="item">
+            <label>物理量上限：</label>
+            <input type="number" id="phyMax" placeholder="如 100">
+        </div>
+        <div class="item">
+            <label>物理量下限：</label>
+            <input type="number" id="phyMin" placeholder="如 0">
+        </div>
+        <div class="item">
+            <label>模拟量上限：</label>
+            <input type="number" id="adcMax" placeholder="如 27648">
+        </div>
+        <div class="item">
+            <label>模拟量下限：</label>
+            <input type="number" id="adcMin" placeholder="如 0">
+        </div>
+        <div class="item">
+            <label>当前模拟量：</label>
+            <input type="number" id="adcVal" placeholder="输入实时模拟量">
+        </div>
+
+        <div class="result">
+            当前物理量：<span id="res">0.00</span>
+        </div>
+    </div>
+
+    <script>
+        // 公式：(物理上限-物理下限)/(模拟上限-模拟下限)*(当前模拟-模拟下限)+物理下限
+        function calc(){
+            let phyMax = parseFloat(document.getElementById('phyMax').value) || 0;
+            let phyMin = parseFloat(document.getElementById('phyMin').value) || 0;
+            let adcMax = parseFloat(document.getElementById('adcMax').value) || 0;
+            let adcMin = parseFloat(document.getElementById('adcMin').value) || 0;
+            let adcVal = parseFloat(document.getElementById('adcVal').value) || 0;
+
+            let res;
+            if(adcMax - adcMin === 0){
+                res = "除数不能为0";
+            }else{
+                res = (phyMax - phyMin) / (adcMax - adcMin) * (adcVal - adcMin) + phyMin;
+                res = res.toFixed(2); // 保留2位小数
+            }
+            document.getElementById('res').innerText = res;
+        }
+
+        // 输入变化自动计算
+        let inputs = document.querySelectorAll('input');
+        inputs.forEach(item=>{
+            item.oninput = calc;
+        });
+    </script>
+</body>
+</html>
