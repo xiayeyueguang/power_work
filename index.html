@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>多进制转换计算器</title>
+    <title>进制计算器导航</title>
     <style>
         * {
             margin: 0;
@@ -13,166 +13,128 @@
         }
 
         body {
-            background-color: #f5f7fa;
-            padding: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: #f0f4f8;
             min-height: 100vh;
+            padding: 40px 20px;
         }
 
-        .calculator {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 600px;
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
-        .title {
+        /* 标题区域 */
+        .header {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 32px;
             color: #2d3748;
-            font-size: 24px;
+            margin-bottom: 10px;
         }
 
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #4a5568;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
+        .header p {
+            color: #718096;
             font-size: 16px;
-            outline: none;
-            transition: border 0.3s;
         }
 
-        input:focus {
+        /* 卡片网格 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        /* 卡片样式 */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            text-decoration: none;
+            color: #2d3748;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
             border-color: #4299e1;
         }
 
-        .result-item {
-            background: #f7fafc;
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            font-size: 16px;
-            display: flex;
-            justify-content: space-between;
+        .card-icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+            color: #4299e1;
         }
 
-        .base-name {
-            font-weight: bold;
-            color: #2d3748;
+        .card h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
         }
 
-        .value {
-            color: #2b6cb0;
-            font-weight: 500;
-            word-break: break-all;
-        }
-
-        .tip {
-            margin-top: 15px;
-            font-size: 13px;
+        .card-desc {
             color: #718096;
-            text-align: center;
+            font-size: 14px;
+            line-height: 1.5;
         }
+
+        /* 配色 */
+        .card-blue { border-left: 6px solid #4299e1; }
+        .card-purple { border-left: 6px solid #9f7aea; }
+        .card-green { border-left: 6px solid #48bb78; }
+        .card-orange { border-left: 6px solid #ed8936; }
+        .card-pink { border-left: 6px solid #ed64a6; }
     </style>
 </head>
 <body>
-    <div class="calculator">
-        <h2 class="title">多进制转换计算器</h2>
-        
-        <div class="input-group">
-            <label>请输入十进制数字：</label>
-            <input type="text" id="decimalInput" placeholder="例如：123456" oninput="convertAll()">
+
+    <div class="container">
+        <div class="header">
+            <h1>进制计算器工具导航</h1>
+            <p>选择你需要的计算器，点击即可使用</p>
         </div>
 
-        <div class="result-item">
-            <span class="base-name">二进制 (2进制)：</span>
-            <span id="bin" class="value">-</span>
-        </div>
-        <div class="result-item">
-            <span class="base-name">四进制 (4进制)：</span>
-            <span id="quat" class="value">-</span>
-        </div>
-        <div class="result-item">
-            <span class="base-name">八进制 (8进制)：</span>
-            <span id="oct" class="value">-</span>
-        </div>
-        <div class="result-item">
-            <span class="base-name">十六进制 (16进制)：</span>
-            <span id="hex" class="value">-</span>
-        </div>
-        <div class="result-item">
-            <span class="base-name">三十二进制 (32进制)：</span>
-            <span id="base32" class="value">-</span>
-        </div>
+        <div class="card-grid">
+            <!-- 卡片1：多进制计算器 -->
+            <a href="进制换算计算器.html" class="card card-blue">
+                <div class="card-icon">🧮</div>
+                <h3>多进制计算器</h3>
+                <p class="card-desc">支持 2/4/8/16/32 进制实时转换，输入十进制自动计算</p>
+            </a>
 
-        <p class="tip">支持：0~9、A~V（32进制）自动大写 | 实时转换</p>
+            <!-- 卡片2：模拟量计算机计算器 -->
+            <a href="binary.html" class="card card-purple">
+                <div class="card-icon">0️⃣1️⃣</div>
+                <h3>二进制计算器</h3>
+                <p class="card-desc">二进制专用转换、加减乘除运算工具</p>
+            </a>
+
+            <!-- 卡片3： -->
+            <a href="hex.html" class="card card-green">
+                <div class="card-icon">🔢</div>
+                <h3>卡片3名称</h3>
+                <p class="card-desc">功能介绍3</p>
+            </a>
+
+            <!-- 卡片4： -->
+            <a href="oct.html" class="card card-orange">
+                <div class="card-icon">8️⃣</div>
+                <h3>卡片4名称</h3>
+                <p class="card-desc">功能介绍4</p>
+            </a>
+
+            <!-- 卡片5： -->
+            <a href="base32.html" class=" card card-pink">
+                <div class="card-icon">🟣</div>
+                <h3>卡片5名称</h3>
+                <p class="card-desc">功能介绍5</p>
+            </a>
+        </div>
     </div>
 
-    <script>
-        // 32进制字符集（0-9, A-V 共32个）
-        const CHARS_32 = '0123456789ABCDEFGHIJKLMNOPQRSTUV';
-
-        // 十进制转任意进制（通用）
-        function decimalToBase(num, base, chars = null) {
-            if (num === 0) return '0';
-            if (num < 0) return '-' + decimalToBase(-num, base, chars);
-            
-            let result = '';
-            const charSet = chars || '0123456789ABCDEF';
-            
-            while (num > 0) {
-                const rem = num % base;
-                result = charSet[rem] + result;
-                num = Math.floor(num / base);
-            }
-            return result;
-        }
-
-        // 实时转换所有进制
-        function convertAll() {
-            const input = document.getElementById('decimalInput').value.trim();
-            const num = parseInt(input, 10);
-
-            // 清空或非数字
-            if (input === '' || isNaN(num)) {
-                document.getElementById('bin').textContent = '-';
-                document.getElementById('quat').textContent = '-';
-                document.getElementById('oct').textContent = '-';
-                document.getElementById('hex').textContent = '-';
-                document.getElementById('base32').textContent = '-';
-                return;
-            }
-
-            // 开始转换
-            const bin = decimalToBase(num, 2);
-            const quat = decimalToBase(num, 4);
-            const oct = decimalToBase(num, 8);
-            const hex = decimalToBase(num, 16);
-            const base32 = decimalToBase(num, 32, CHARS_32);
-
-            // 显示结果
-            document.getElementById('bin').textContent = bin;
-            document.getElementById('quat').textContent = quat;
-            document.getElementById('oct').textContent = oct;
-            document.getElementById('hex').textContent = hex;
-            document.getElementById('base32').textContent = base32;
-        }
-    </script>
 </body>
 </html>
