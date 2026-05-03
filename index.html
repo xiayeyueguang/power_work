@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多进制转换计算器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .calculator {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2d3748;
+            font-size: 24px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #4a5568;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        input:focus {
+            border-color: #4299e1;
+        }
+
+        .result-item {
+            background: #f7fafc;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .base-name {
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .value {
+            color: #2b6cb0;
+            font-weight: 500;
+            word-break: break-all;
+        }
+
+        .tip {
+            margin-top: 15px;
+            font-size: 13px;
+            color: #718096;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h2 class="title">多进制转换计算器</h2>
+        
+        <div class="input-group">
+            <label>请输入十进制数字：</label>
+            <input type="text" id="decimalInput" placeholder="例如：123456" oninput="convertAll()">
+        </div>
+
+        <div class="result-item">
+            <span class="base-name">二进制 (2进制)：</span>
+            <span id="bin" class="value">-</span>
+        </div>
+        <div class="result-item">
+            <span class="base-name">四进制 (4进制)：</span>
+            <span id="quat" class="value">-</span>
+        </div>
+        <div class="result-item">
+            <span class="base-name">八进制 (8进制)：</span>
+            <span id="oct" class="value">-</span>
+        </div>
+        <div class="result-item">
+            <span class="base-name">十六进制 (16进制)：</span>
+            <span id="hex" class="value">-</span>
+        </div>
+        <div class="result-item">
+            <span class="base-name">三十二进制 (32进制)：</span>
+            <span id="base32" class="value">-</span>
+        </div>
+
+        <p class="tip">支持：0~9、A~V（32进制）自动大写 | 实时转换</p>
+    </div>
+
+    <script>
+        // 32进制字符集（0-9, A-V 共32个）
+        const CHARS_32 = '0123456789ABCDEFGHIJKLMNOPQRSTUV';
+
+        // 十进制转任意进制（通用）
+        function decimalToBase(num, base, chars = null) {
+            if (num === 0) return '0';
+            if (num < 0) return '-' + decimalToBase(-num, base, chars);
+            
+            let result = '';
+            const charSet = chars || '0123456789ABCDEF';
+            
+            while (num > 0) {
+                const rem = num % base;
+                result = charSet[rem] + result;
+                num = Math.floor(num / base);
+            }
+            return result;
+        }
+
+        // 实时转换所有进制
+        function convertAll() {
+            const input = document.getElementById('decimalInput').value.trim();
+            const num = parseInt(input, 10);
+
+            // 清空或非数字
+            if (input === '' || isNaN(num)) {
+                document.getElementById('bin').textContent = '-';
+                document.getElementById('quat').textContent = '-';
+                document.getElementById('oct').textContent = '-';
+                document.getElementById('hex').textContent = '-';
+                document.getElementById('base32').textContent = '-';
+                return;
+            }
+
+            // 开始转换
+            const bin = decimalToBase(num, 2);
+            const quat = decimalToBase(num, 4);
+            const oct = decimalToBase(num, 8);
+            const hex = decimalToBase(num, 16);
+            const base32 = decimalToBase(num, 32, CHARS_32);
+
+            // 显示结果
+            document.getElementById('bin').textContent = bin;
+            document.getElementById('quat').textContent = quat;
+            document.getElementById('oct').textContent = oct;
+            document.getElementById('hex').textContent = hex;
+            document.getElementById('base32').textContent = base32;
+        }
+    </script>
+</body>
+</html>
